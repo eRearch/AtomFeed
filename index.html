@@ -720,9 +720,9 @@ function removeKw(k){var i=state.kw.indexOf(k);if(i>-1)state.kw.splice(i,1);docu
 function renderStep3(body,isZh){
   body.innerHTML=`
 <div class="field"><label>${isZh?'备注 / 期刊建议 / 其他想说的（可选）':'Notes / journal requests / anything else (optional)'}</label>
-<textarea id="f-note" rows="5" placeholder="${isZh?'例如：\n- 我还关注 Energy Storage Materials 这个期刊\n- 我的 HC 关键词指 half-cell，Li||Cu 体系\n- 有问题可加我微信 xxx':'e.g.:\n- Please add Energy Storage Materials journal\n- My HC keyword means half-cell (Li||Cu)\n- Any questions: your contact'}">${state.note}</textarea>
+<textarea id="f-note" rows="5" placeholder="${isZh?'例如：\n- 我还关注 Energy Storage Materials 这个期刊\n- 有问题可加我微信 xxx':'e.g.:\n- Please add Energy Storage Materials journal\n- My HC keyword means half-cell (Li||Cu)\n- Any questions: your contact'}">${state.note}</textarea>
 </div>
-<p style="font-size:12px;color:var(--ink3)">${isZh?'期刊需求：直接写期刊名和网址，我们会评估添加。关键词特殊规则（如 HC = Half-Cell）也写在这里，我们手动配置。':'Journal requests: write name + URL. Special keyword rules (e.g. HC = Half-Cell) go here too.'}</p>`;
+<p style="font-size:12px;color:var(--ink3)">${isZh?'期刊需求：直接写期刊名和网址，我们会审核评估添加。':'Journal requests: write name + URL. Special keyword rules (e.g. HC = Half-Cell) go here too.'}</p>`;
 }
 
 function renderStep4(body,isZh){
@@ -732,7 +732,7 @@ function renderStep4(body,isZh){
 <div class="success-icon">📬</div>
 <h3 style="color:var(--ink)">${isZh?'确认免费订阅':'Confirm Free Subscription'}</h3>
 <p>${isZh?'点击下方按钮，将跳转到邮件客户端，发送订阅请求给我们。':'Click below to open your email client and send us the subscription request.'}</p>
-<div class="success-email">${isZh?'发给：':'To: '}1874942711@qq.com</div>
+<div class="success-email">${isZh?'发给：':'To: '}755986137@qq.com</div>
 </div>`;
   } else {
     var price=getPrice();
@@ -813,7 +813,7 @@ Email: ${state.email}
 Keywords: ${state.kw.join(', ')||'(default)'}
 Notes: ${state.note||'(none)'}
 Order: ${state.order}`;
-  window.location.href='mailto:1874942711@qq.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+  window.location.href='mailto:755986137@qq.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
   state.step=5;renderStep();
 }
 
@@ -848,7 +848,7 @@ Keywords: ${state.kw.join(', ')||'(none selected)'}
 Notes: ${state.note||'(none)'}
 
 Please verify Alipay payment and send license key.`;
-  window.location.href='mailto:1874942711@qq.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+  window.location.href='mailto:755986137@qq.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
 }
 </script>
 </body>
