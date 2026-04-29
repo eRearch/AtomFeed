@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AtomFeed · 电池研究每日情报</title>
+<meta name="description" content="直接从期刊源头获取情报。每天早上8点,你的关键词匹配结果已经准备好了。"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff;--bg2:#f7f6f3;--bg3:#f0eeeb;
+  --ink:#0d0d0d;--ink2:#37352f;--ink3:#787774;--ink4:#b3b1ad;
+  --line:#e8e6e3;--line2:#d5d2ce;
+  --accent:#d97757;--accent-bg:#fdf3ee;--accent-ink:#a0431b;
+  --green:#448361;--green-bg:#edf3ee;
+  --blue:#2d7db3;--blue-bg:#e8f2f9;
+  --r:8px;--r2:12px;--r3:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans SC','Inter',sans-serif;background:var(--bg);color:var(--ink2);line-height:1.6;-webkit-font-smoothing:antialiased}
+.mono{font-family:'JetBrains Mono',monospace}
+.c{max-width:900px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-i{max-width:900px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;font-weight:700;font-size:16px;color:var(--ink)}
+.logo-mark{width:28px;height:28px;background:var(--ink);border-radius:7px;display:grid;place-items:center;color:#fff;font-size:13px;font-family:'JetBrains Mono',monospace;font-weight:700;letter-spacing:-.5px}
+.nav-r{display:flex;align-items:center;gap:20px;font-size:13px}
+.nav-r a{color:var(--ink3);text-decoration:none;transition:color .15s}
+.nav-r a:hover{color:var(--ink)}
+.lang-btn{border:1px solid var(--line2);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;background:#fff;color:var(--ink3);font-family:inherit;transition:background .15s}
+.lang-btn:hover{background:var(--bg2)}
+
+/* HERO */
+.hero{padding:88px 0 60px;border-top:none}
+.badge{display:inline-flex;align-items:center;gap:7px;background:var(--accent-bg);color:var(--accent-ink);padding:5px 12px;border-radius:100px;font-size:12px;font-weight:500;margin-bottom:22px}
+.dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+h1{font-size:50px;line-height:1.12;font-weight:700;color:var(--ink);letter-spacing:-.025em;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--accent)}
+.hero-sub{font-size:18px;color:var(--ink3);max-width:620px;margin-bottom:32px;line-height:1.65}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 20px;border-radius:var(--r);font-size:14px;font-weight:500;text-decoration:none;border:none;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-dark{background:var(--ink);color:#fff}.btn-dark:hover{background:var(--ink2);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--ink2);border:1px solid var(--line2)}.btn-ghost:hover{background:var(--bg2)}
+.hero-checks{display:flex;gap:18px;margin-top:24px;flex-wrap:wrap;font-size:12px;color:var(--ink3)}
+.hero-checks span::before{content:'✓ ';color:var(--green);font-weight:600}
+
+/* PREVIEW */
+.preview-wrap{padding:0 0 72px}
+.preview{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r2);overflow:hidden}
+.preview-top{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:var(--bg3);border-bottom:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink3)}
+.preview-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.p-paper{padding:16px 18px;border-bottom:1px solid var(--line);background:#fff}
+.p-paper:last-child{border-bottom:none}
+.p-tags{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.p-tag{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500;font-family:'JetBrains Mono',monospace}
+.tag-j{background:#fdf3ee;color:#b85530}
+.tag-k{background:var(--blue-bg);color:var(--blue)}
+.p-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;line-height:1.4}
+.p-meta{font-size:11px;color:var(--ink3);margin-bottom:8px}
+.p-sum{font-size:13px;color:var(--ink2);padding-top:8px;border-top:1px dashed var(--line);line-height:1.55}
+.p-pills{margin-top:6px;display:flex;flex-wrap:wrap;gap:4px}
+.pill{font-size:10px;font-family:'JetBrains Mono',monospace;background:var(--green-bg);color:var(--green);padding:2px 6px;border-radius:3px}
+
+/* SECTION */
+section{padding:72px 0;border-top:1px solid var(--line)}
+.s-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+h2{font-size:30px;font-weight:700;color:var(--ink);margin-bottom:14px;letter-spacing:-.015em}
+.s-sub{font-size:16px;color:var(--ink3);max-width:600px;margin-bottom:36px;line-height:1.65}
+
+/* WHY US */
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.why-card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r2);padding:22px}
+.why-card.accent-card{background:var(--ink);color:#fff;border-color:var(--ink)}
+.why-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:10px;font-weight:500}
+.why-card.accent-card .why-num{color:#d97757}
+.why-card h3{font-size:15px;font-weight:600;margin-bottom:7px;color:var(--ink)}
+.why-card.accent-card h3{color:#fff}
+.why-card p{font-size:13px;color:var(--ink3);line-height:1.6}
+.why-card.accent-card p{color:rgba(255,255,255,.65)}
+.first-p{background:var(--accent-bg);border:1px solid var(--accent);border-radius:var(--r2);padding:22px;margin-bottom:14px}
+.first-p blockquote{font-size:15px;color:var(--accent-ink);line-height:1.75;font-style:normal;border-left:3px solid var(--accent);padding-left:14px}
+
+/* JOURNALS */
+.j-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.j-card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;font-size:13px}
+.j-name{font-weight:600;color:var(--ink);margin-bottom:2px}
+.j-note{font-size:11px;color:var(--ink3)}
+.j-new{display:inline-block;font-size:9px;background:var(--accent-bg);color:var(--accent);padding:1px 5px;border-radius:3px;margin-left:4px;font-weight:600;vertical-align:middle}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
+.step{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r2);padding:18px}
+.step-n{width:26px;height:26px;background:var(--ink);color:#fff;border-radius:50%;font-size:12px;font-weight:700;display:grid;place-items:center;margin-bottom:11px;font-family:'JetBrains Mono',monospace}
+.step h3{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.step p{font-size:12px;color:var(--ink3);line-height:1.5}
+
+/* PRICING */
+.billing-toggle{display:flex;align-items:center;gap:10px;margin-bottom:28px;font-size:13px}
+.toggle-track{width:44px;height:24px;background:var(--line2);border-radius:100px;cursor:pointer;position:relative;transition:background .2s;border:none;padding:0;flex-shrink:0}
+.toggle-track.on{background:var(--ink)}
+.toggle-knob{width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle-track.on .toggle-knob{left:23px}
+.save-badge{background:var(--green-bg);color:var(--green);font-size:11px;padding:2px 7px;border-radius:100px;font-weight:500}
+.plan-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+.plan{background:#fff;border:1px solid var(--line);border-radius:var(--r2);padding:24px;display:flex;flex-direction:column;position:relative}
+.plan.featured{border:2px solid var(--ink);transform:translateY(-3px)}
+.plan-badge{position:absolute;top:-10px;right:14px;background:var(--ink);color:#fff;font-size:10px;padding:3px 9px;border-radius:100px;font-weight:500}
+.plan-name{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:3px}
+.plan-desc{font-size:12px;color:var(--ink3);margin-bottom:14px;min-height:28px}
+.plan-price{font-size:32px;font-weight:700;color:var(--ink);line-height:1;margin-bottom:3px}
+.plan-price small{font-size:13px;font-weight:400;color:var(--ink3)}
+.plan-orig{font-size:11px;color:var(--ink4);text-decoration:line-through;margin-bottom:2px;min-height:16px}
+.plan-note{font-size:11px;color:var(--ink3);margin-bottom:18px}
+.plan ul{list-style:none;flex:1;margin-bottom:18px}
+.plan li{font-size:13px;padding:4px 0;display:flex;align-items:flex-start;gap:7px;color:var(--ink2)}
+.plan li::before{content:'✓';color:var(--green);font-weight:600;flex-shrink:0;margin-top:1px}
+.plan li.no::before{content:'×';color:var(--ink4)}
+.plan li.no{color:var(--ink4)}
+.plan-sub{display:flex;flex-direction:column;gap:8px}
+.plan-cta{text-align:center;padding:10px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--line2);background:#fff;color:var(--ink2);font-family:inherit;transition:all .15s}
+.plan-cta:hover{background:var(--bg2)}
+.plan.featured .plan-cta{background:var(--ink);color:#fff;border-color:var(--ink)}
+.plan.featured .plan-cta:hover{background:var(--ink2)}
+.team-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.team-opt{border:1px solid var(--line2);border-radius:var(--r);padding:10px;text-align:center;cursor:pointer;font-size:13px;font-weight:500;color:var(--ink2);font-family:inherit;background:#fff;transition:all .15s}
+.team-opt:hover{background:var(--bg2)}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center;padding:20px}
+.overlay.show{display:flex}
+.modal{background:#fff;width:100%;max-width:520px;border-radius:var(--r3);overflow:hidden;max-height:90vh;display:flex;flex-direction:column}
+.modal-head{padding:20px 24px 0;flex-shrink:0}
+.modal-close{float:right;background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink3);margin-top:-4px;line-height:1}
+.modal-title{font-size:17px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.modal-plan-tag{font-size:12px;color:var(--ink3)}
+/* progress */
+.prog{display:flex;gap:0;margin:16px 0 0}
+.prog-step{flex:1;height:3px;background:var(--line);transition:background .3s;border-radius:0}
+.prog-step.done{background:var(--green)}
+.prog-step.active{background:var(--accent)}
+.modal-body{padding:20px 24px;overflow-y:auto;flex:1}
+.modal-foot{padding:14px 24px;border-top:1px solid var(--line);display:flex;gap:10px;flex-shrink:0}
+.modal-btn{flex:1;padding:11px;border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;border:1px solid var(--line2);background:#fff;color:var(--ink2);transition:all .15s}
+.modal-btn:hover{background:var(--bg2)}
+.modal-btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.modal-btn.primary:hover{background:var(--ink2)}
+/* form */
+label{display:block;font-size:12px;font-weight:500;color:var(--ink2);margin-bottom:5px}
+input[type=text],input[type=email],textarea{width:100%;border:1px solid var(--line2);border-radius:var(--r);padding:9px 12px;font-size:14px;font-family:inherit;color:var(--ink);outline:none;transition:border .15s;resize:vertical;background:#fff}
+input[type=text]:focus,input[type=email]:focus,textarea:focus{border-color:var(--ink2)}
+.field{margin-bottom:14px}
+.billing-choice{display:flex;gap:8px;margin-bottom:16px}
+.b-opt{flex:1;border:1px solid var(--line2);border-radius:var(--r);padding:10px;text-align:center;cursor:pointer;font-size:13px;background:#fff;font-family:inherit;transition:all .15s}
+.b-opt:hover{background:var(--bg2)}
+.b-opt.sel{border-color:var(--ink);background:var(--ink);color:#fff}
+/* keywords */
+.kw-limit{font-size:12px;color:var(--ink3);margin-bottom:10px}
+.kw-limit b{color:var(--accent)}
+.kw-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.kw-chip{font-size:12px;padding:5px 10px;border-radius:100px;border:1px solid var(--line2);background:#fff;cursor:pointer;font-family:inherit;color:var(--ink2);transition:all .15s}
+.kw-chip:hover{border-color:var(--ink3)}
+.kw-chip.sel{background:var(--ink);color:#fff;border-color:var(--ink)}
+.kw-chip.disabled{opacity:.4;cursor:not-allowed}
+.kw-custom{display:flex;gap:6px;margin-top:6px}
+.kw-custom input{flex:1}
+.kw-custom button{padding:8px 14px;border-radius:var(--r);border:1px solid var(--line2);background:#fff;cursor:pointer;font-size:13px;font-family:inherit;white-space:nowrap;transition:all .15s}
+.kw-custom button:hover{background:var(--bg2)}
+.kw-selected{margin-top:10px;background:var(--bg2);border-radius:var(--r);padding:10px 12px;min-height:38px}
+.kw-selected-label{font-size:11px;color:var(--ink3);margin-bottom:5px}
+.kw-tags{display:flex;flex-wrap:wrap;gap:5px}
+.kw-tag{font-size:12px;padding:3px 9px;background:var(--green-bg);color:var(--green);border-radius:100px;display:flex;align-items:center;gap:5px}
+.kw-tag button{background:none;border:none;cursor:pointer;color:var(--green);font-size:14px;line-height:1;padding:0}
+/* payment */
+.order-code-box{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:14px;text-align:center;margin:12px 0}
+.order-label{font-size:11px;color:var(--ink3);margin-bottom:4px}
+.order-val{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--ink);letter-spacing:.1em}
+.amount-line{text-align:center;font-size:18px;font-weight:600;color:var(--accent);margin-bottom:12px}
+.qr-wrap{text-align:center;margin:12px 0}
+.qr-wrap img{max-width:180px;border:1px solid var(--line);border-radius:var(--r);padding:8px}
+.qr-placeholder{width:180px;height:180px;border:2px dashed var(--line2);border-radius:var(--r);display:flex;align-items:center;justify-content:center;margin:0 auto;color:var(--ink4);font-size:12px;flex-direction:column;gap:6px}
+.pay-instr{font-size:13px;color:var(--ink2);line-height:1.7;background:var(--accent-bg);border-left:3px solid var(--accent);padding:12px 14px;border-radius:0 var(--r) var(--r) 0;margin:12px 0}
+/* success */
+.success-wrap{text-align:center;padding:20px 0}
+.success-icon{font-size:48px;margin-bottom:14px}
+.success-wrap h3{font-size:20px;font-weight:600;color:var(--green);margin-bottom:8px}
+.success-wrap p{font-size:14px;color:var(--ink3);margin-bottom:6px;line-height:1.6}
+.success-email{background:var(--green-bg);color:var(--green);padding:8px 14px;border-radius:var(--r);font-size:13px;font-weight:500;margin:10px 0;display:inline-block}
+.success-code{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ink3);margin-top:8px}
+
+/* FAQ */
+details{border:1px solid var(--line);border-radius:var(--r2);padding:15px 18px;margin-bottom:7px;cursor:pointer}
+summary{font-weight:500;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;font-size:14px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';color:var(--ink3);font-size:18px;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin-top:11px;padding-top:11px;border-top:1px dashed var(--line);font-size:13px;color:var(--ink3);line-height:1.7}
+
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding:36px 0}
+.footer-i{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px}
+.footer-l{font-size:12px;color:var(--ink4)}
+.footer-links a{color:var(--ink3);text-decoration:none;font-size:13px;margin-right:16px}
+.footer-links a:hover{color:var(--ink)}
+
+/* LANG */
+.zh,.en{display:none}
+[data-lang=zh] .zh{display:inline}
+[data-lang=en] .en{display:inline}
+.zh-b,.en-b{display:none}
+[data-lang=zh] .zh-b{display:block}
+[data-lang=en] .en-b{display:block}
+
+@media(max-width:720px){
+  h1{font-size:34px}
+  .steps,.plan-grid,.why-grid{grid-template-columns:1fr}
+  .plan.featured{transform:none}
+  h2{font-size:24px}
+}
+</style>
+</head>
+<body data-lang="zh">
+
+<nav>
+  <div class="nav-i">
+    <a class="logo" href="#">
+      <span class="logo-mark">⚡</span>AtomFeed
+    </a>
+    <div class="nav-r">
+      <a href="#why"><span class="zh">为什么</span><span class="en">Why</span></a>
+      <a href="#pricing"><span class="zh">定价</span><span class="en">Pricing</span></a>
+      <a href="#faq">FAQ</a>
+      <button class="lang-btn" onclick="toggleLang()"><span class="zh">EN</span><span class="en">中</span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="border-top:none">
+<div class="c">
+  <div class="badge"><span class="dot"></span><span class="zh">为电池研究者打造</span><span class="en">Built for battery researchers</span></div>
+  <h1><span class="zh">你主动出击，<br/>还是被动<em>等菜上桌</em>？</span><span class="en">Control your feed,<br/>or be <em>fed by the algorithm</em>.</span></h1>
+  <p class="hero-sub">
+    <span class="zh">AtomFeed 直接从 30+ 顶刊和 arXiv 获取情报，用你自定义的关键词匹配，每天早上 8 点送达。第一性原理：信息的主动权在你手里。</span>
+    <span class="en">AtomFeed pulls from 30+ top journals and arXiv directly. Your keywords, your control, delivered at 8am daily.</span>
+  </p>
+  <div class="btns">
+    <button class="btn btn-dark" onclick="openModal('pro')"><span class="zh">立即订阅</span><span class="en">Subscribe now</span> →</button>
+    <button class="btn btn-ghost" onclick="openModal('free')"><span class="zh">免费体验</span><span class="en">Start free</span></button>
+  </div>
+  <div class="hero-checks">
+    <span><span class="zh">免费版可用</span><span class="en">Free plan available</span></span>
+    <span><span class="zh">中英双语</span><span class="en">Bilingual digests</span></span>
+    <span><span class="zh">7天无理由退款</span><span class="en">7-day refund</span></span>
+    <span><span class="zh">随时取消</span><span class="en">Cancel anytime</span></span>
+  </div>
+</div>
+</section>
+
+<!-- PREVIEW -->
+<section class="preview-wrap" style="border-top:none;padding-top:0">
+<div class="c">
+  <div class="preview">
+    <div class="preview-top">
+      <span><span class="preview-dot" style="background:#ff5f57"></span><span class="preview-dot" style="background:#febc2e"></span><span class="preview-dot" style="background:#28c840"></span></span>
+      <span class="mono">AtomFeed digest · 2026-04-30 · 08:00</span>
+      <span><span class="zh">今日精选 2 篇</span><span class="en">2 matches today</span></span>
+    </div>
+    <div class="p-paper">
+      <div class="p-tags">
+        <span class="p-tag tag-j">Nature</span>
+        <span class="p-tag tag-k">solid electrolyte</span>
+        <span class="p-tag tag-k">dendrite</span>
+      </div>
+      <div class="p-title">Mechanically driven Li dendrite penetration in garnet solid electrolyte</div>
+      <div class="p-meta">Hongyi Luo et al. · Nature 2026 · <a href="https://www.nature.com/articles/s41586-026-10415-9" style="color:var(--blue);text-decoration:none">doi:10.1038/s41586-026-10415-9</a></div>
+      <div class="p-sum">
+        <span class="zh">该研究系统揭示了 Li 枝晶穿透石榴石固态电解质的力学驱动机制，通过原位表征确认枝晶沿晶界扩展的路径，为固态电池界面失效提供了首性原理解释。</span>
+        <span class="en">Reveals the mechanical mechanism of Li dendrite penetration in garnet SSE; in-situ characterization confirms grain-boundary pathways, providing a first-principles explanation for solid-state battery failure.</span>
+        <div class="p-pills">
+          <span class="pill">garnet LLZO</span><span class="pill">dendrite</span><span class="pill">grain boundary</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-paper">
+      <div class="p-tags">
+        <span class="p-tag tag-j">arXiv</span>
+        <span class="p-tag tag-k">ML screening</span>
+        <span class="p-tag tag-k">electrode materials</span>
+      </div>
+      <div class="p-title">Machine Learning for Electrode Materials: Property Prediction via Composition</div>
+      <div class="p-meta">arXiv:2603.07805 · <a href="https://arxiv.org/abs/2603.07805v1" style="color:var(--blue);text-decoration:none">arxiv.org/abs/2603.07805</a></div>
+      <div class="p-sum">
+        <span class="zh">基于成分输入的机器学习模型，用于电极材料性能预测，实现了快速的高通量筛选，无需 DFT 计算即可评估容量与电压窗口。</span>
+        <span class="en">ML model predicts electrode material properties directly from composition, enabling high-throughput screening without DFT, with competitive capacity and voltage window accuracy.</span>
+        <div class="p-pills">
+          <span class="pill">ML screening</span><span class="pill">high-throughput</span><span class="pill">composition-based</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+<div class="c">
+  <div class="s-label"><span class="zh">为什么选 AtomFeed</span><span class="en">Why AtomFeed</span></div>
+  <h2><span class="zh">信息主动权，才是第一性原理。</span><span class="en">Information sovereignty — first principles.</span></h2>
+
+  <div class="first-p">
+    <blockquote>
+      <span class="zh">你能刷到哪些文献、哪些内容会被做成推送——这两件事你一件都决定不了。微信公众号是被动端上桌的菜，是被 feed 的信息流。你不是主动在找信息，你是在等信息来找你，而且来的不一定是你真正需要的。</span>
+      <span class="en">Which papers you see, which ones get turned into posts — you control neither. WeChat feeds are algorithmically curated. You aren't finding information; you're waiting for it to find you. And what arrives isn't necessarily what you need.</span>
+    </blockquote>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-card accent-card">
+      <div class="why-num">01 · <span class="zh">第一性原理</span><span class="en">First principles</span></div>
+      <h3><span class="zh">直接来源于期刊本身</span><span class="en">Straight from the journal</span></h3>
+      <p><span class="zh">AtomFeed 从期刊 RSS 和官方 API 拉取，没有中间商、没有算法过滤、没有内容创作者的主观选择。你看到的就是原始发表的东西。</span><span class="en">AtomFeed pulls directly from journal RSS and official APIs. No middleman, no algorithmic filter, no content creator's selection bias. You see what was actually published.</span></p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">02 · <span class="zh">你决定什么进来</span><span class="en">You decide what enters</span></div>
+      <h3><span class="zh">关键词是你的，不是算法的</span><span class="en">Your keywords, not theirs</span></h3>
+      <p><span class="zh">你写"anode-free"，我们匹配 AFLMB、anode-less 等所有同义词。你写"HC"，我们知道是 Half-Cell 不是 hard carbon。精准度是你经验的函数，不是推荐算法的产物。</span><span class="en">"HC" means Half-Cell, not hard carbon. "anode-free" auto-matches AFLMB, anode-less. Precision is a function of your expertise, not some black-box model.</span></p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">03 · <span class="zh">相关性问题</span><span class="en">Relevance problem</span></div>
+      <h3><span class="zh">99% 的推送跟你没关系</span><span class="en">99% of posts aren't relevant to you</span></h3>
+      <p><span class="zh">大部分公众号推送和你自己的研究方向相关性极差。你肯定有经历：真正与你课题相关的文献，还是得自己主动去搜，因为不是所有内容都会被做成推送。</span><span class="en">Most posts have nothing to do with your specific research. The papers that actually matter to your work still require a manual search — because not everything gets turned into content.</span></p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">04 · <span class="zh">信息时效</span><span class="en">Freshness</span></div>
+      <h3><span class="zh">每天最新，不是别人消化完剩下的</span><span class="en">Daily new, not pre-digested leftovers</span></h3>
+      <p><span class="zh">AtomFeed 每天扫描一次，你在文章刚发表的时候就能看到。用了之后你会明显感受到之前信息的滞后性——很多公众号内容是论文发表一两周后才出。</span><span class="en">AtomFeed scans daily. You see papers the day they drop. After using it, you'll feel how stale your old sources were — most posts appear 1-2 weeks after publication.</span></p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- JOURNALS -->
+<section>
+<div class="c">
+  <div class="s-label"><span class="zh">覆盖期刊</span><span class="en">Journal coverage</span></div>
+  <h2><span class="zh">30+ 顶刊，全部直连 RSS 源头。</span><span class="en">30+ journals, all direct RSS.</span></h2>
+  <p class="s-sub"><span class="zh">以下是当前覆盖列表。标注 ★ 的是近期新增。如果你有需要的期刊，在订阅备注里告诉我们，我们会评估添加。</span><span class="en">Current coverage. ★ = recently added. Tell us in the notes if you need a journal not listed.</span></p>
+  <div class="j-grid">
+    <div class="j-card"><div class="j-name">Nature</div><div class="j-note">nature.com</div></div>
+    <div class="j-card"><div class="j-name">Nature Energy</div><div class="j-note">nature.com/nenergy</div></div>
+    <div class="j-card"><div class="j-name">Nature Materials</div><div class="j-note">nature.com/nmat</div></div>
+    <div class="j-card"><div class="j-name">Nature Chemistry</div><div class="j-note">nature.com/nchem</div></div>
+    <div class="j-card"><div class="j-name">Nature Nanotechnology</div><div class="j-note">nature.com/nnano</div></div>
+    <div class="j-card"><div class="j-name">Nature Comm.</div><div class="j-note">nature.com/ncomms</div></div>
+    <div class="j-card"><div class="j-name">Nature Catalysis</div><div class="j-note">nature.com/natcatal</div></div>
+    <div class="j-card"><div class="j-name">Science</div><div class="j-note">science.org</div></div>
+    <div class="j-card"><div class="j-name">Science Advances</div><div class="j-note">advances.sciencemag.org</div></div>
+    <div class="j-card"><div class="j-name">Joule</div><div class="j-note">cell.com/joule</div></div>
+    <div class="j-card"><div class="j-name">Matter</div><div class="j-note">cell.com/matter</div></div>
+    <div class="j-card"><div class="j-name">Chem</div><div class="j-note">cell.com/chem</div></div>
+    <div class="j-card"><div class="j-name">iScience</div><div class="j-note">cell.com/iscience</div></div>
+    <div class="j-card"><div class="j-name">EES</div><div class="j-note">rsc.org (Energy Environ. Sci.)</div></div>
+    <div class="j-card"><div class="j-name">JACS</div><div class="j-note">pubs.acs.org/jacsat</div></div>
+    <div class="j-card"><div class="j-name">ACS Energy Lett.</div><div class="j-note">pubs.acs.org/aelccp</div></div>
+    <div class="j-card"><div class="j-name">Angew. Chemie</div><div class="j-note">onlinelibrary.wiley.com</div></div>
+    <div class="j-card"><div class="j-name">Adv. Materials</div><div class="j-note">onlinelibrary.wiley.com</div></div>
+    <div class="j-card"><div class="j-name">Adv. Energy Mater.</div><div class="j-note">onlinelibrary.wiley.com</div></div>
+    <div class="j-card"><div class="j-name">Nano Letters</div><div class="j-note">pubs.acs.org/nalefd</div></div>
+    <div class="j-card"><div class="j-name">Chem. Soc. Rev.</div><div class="j-note">rsc.org/cs</div></div>
+    <div class="j-card"><div class="j-name">Chem. Sci.</div><div class="j-note">rsc.org/sc</div></div>
+    <div class="j-card"><div class="j-name">JMCA</div><div class="j-note">rsc.org (J. Mater. Chem. A)</div></div>
+    <div class="j-card"><div class="j-name">ChemRxiv</div><div class="j-note">chemrxiv.org (preprint)</div></div>
+    <div class="j-card"><div class="j-name">arXiv cond-mat</div><div class="j-note">arxiv.org/cond-mat.mtrl-sci</div></div>
+    <div class="j-card"><div class="j-name">arXiv physics</div><div class="j-note">physics.app-ph + chem-ph</div></div>
+    <div class="j-card" style="border-color:var(--accent)"><div class="j-name">Energy Storage Mater.<span class="j-new">建议添加</span></div><div class="j-note">journals.elsevier.com/esm</div></div>
+    <div class="j-card" style="border-color:var(--accent)"><div class="j-name">J. Power Sources<span class="j-new">建议添加</span></div><div class="j-note">journals.elsevier.com/jps</div></div>
+    <div class="j-card" style="border-color:var(--accent)"><div class="j-name">Nano Energy<span class="j-new">建议添加</span></div><div class="j-note">journals.elsevier.com/nano-energy</div></div>
+    <div class="j-card" style="border-color:var(--accent)"><div class="j-name">J. Electrochem. Soc.<span class="j-new">建议添加</span></div><div class="j-note">iopscience.iop.org/1945-7111</div></div>
+    <div class="j-card" style="border-color:var(--accent)"><div class="j-name">Adv. Science<span class="j-new">建议添加</span></div><div class="j-note">onlinelibrary.wiley.com</div></div>
+    <div class="j-card" style="border-color:var(--accent)"><div class="j-name">ACS Nano<span class="j-new">建议添加</span></div><div class="j-note">pubs.acs.org/ancac3</div></div>
+  </div>
+  <p style="font-size:12px;color:var(--ink3);margin-top:12px"><span class="zh">橙色边框为建议新增期刊，有相关 RSS 源，待确认后会添加。</span><span class="en">Orange border = suggested additions with available RSS feeds, pending confirmation.</span></p>
+</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+<div class="c">
+  <div class="s-label"><span class="zh">如何运作</span><span class="en">How it works</span></div>
+  <h2><span class="zh">三分钟设置，早上 30 秒读完。</span><span class="en">3 min setup. 30 sec daily read.</span></h2>
+  <div class="steps">
+    <div class="step"><div class="step-n">1</div><h3><span class="zh">填邮箱 + 关键词</span><span class="en">Email + keywords</span></h3><p><span class="zh">注册时选好你的研究关键词，Pro 最多 10 个，支持同义词扩展</span><span class="en">Choose your research keywords at signup. Pro supports up to 10 with synonym expansion.</span></p></div>
+    <div class="step"><div class="step-n">2</div><h3><span class="zh">每日扫描 30+ 顶刊</span><span class="en">Daily scan 30+ journals</span></h3><p><span class="zh">每天清晨自动从 RSS 源 + arXiv API 拉取最新论文，无遗漏</span><span class="en">Fetches fresh papers from RSS + arXiv API every morning automatically.</span></p></div>
+    <div class="step"><div class="step-n">3</div><h3><span class="zh">AI 提取关键数据</span><span class="en">AI extracts key data</span></h3><p><span class="zh">Pro 用户：CE / 容量 / 循环数 / 电解液自动提取，不用读全文就能判断相关性</span><span class="en">Pro: CE, capacity, cycles, electrolyte auto-extracted. Assess relevance without reading the full paper.</span></p></div>
+    <div class="step"><div class="step-n">4</div><h3><span class="zh">早上 8 点邮件送达</span><span class="en">8am email delivery</span></h3><p><span class="zh">一封简洁邮件，配早咖啡刚好。收到授权码后次日生效。</span><span class="en">One clean email. License key activates the next morning after receipt.</span></p></div>
+  </div>
+</div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+<div class="c">
+  <div class="s-label"><span class="zh">定价</span><span class="en">Pricing</span></div>
+  <h2><span class="zh">起步免费，升级随时。</span><span class="en">Start free. Upgrade anytime.</span></h2>
+  <p class="s-sub"><span class="zh">付费套餐 7 天内不满意全额退款。支付宝扫码付款，12 小时内发授权码。</span><span class="en">7-day no-questions refund. Alipay payment, license key within 12h.</span></p>
+
+  <div class="billing-toggle">
+    <span class="zh">月付</span><span class="en">Monthly</span>
+    <button class="toggle-track" id="annualToggle" onclick="toggleBilling()" aria-label="toggle annual billing">
+      <span class="toggle-knob"></span>
+    </button>
+    <span class="zh">年付</span><span class="en">Annual</span>
+    <span class="save-badge" id="saveBadge"><span class="zh">省 20%</span><span class="en">Save 20%</span></span>
+  </div>
+
+  <div class="plan-grid">
+    <!-- FREE -->
+    <div class="plan">
+      <div class="plan-name">Free</div>
+      <div class="plan-desc"><span class="zh">先看看效果</span><span class="en">See how it works</span></div>
+      <div class="plan-orig" id="free-orig"></div>
+      <div class="plan-price" id="free-price">¥0<small></small></div>
+      <div class="plan-note"><span class="zh">永久免费</span><span class="en">Forever free</span></div>
+      <ul>
+        <li><span class="zh">每周一封</span><span class="en">Weekly digest</span></li>
+        <li><span class="zh">默认电池关键词</span><span class="en">Default battery keywords</span></li>
+        <li><span class="zh">30+ 顶刊 + arXiv</span><span class="en">30+ journals + arXiv</span></li>
+        <li class="no"><span class="zh">AI 总结</span><span class="en">AI summary</span></li>
+        <li class="no"><span class="zh">数据提取</span><span class="en">Data extraction</span></li>
+      </ul>
+      <button class="plan-cta" onclick="openModal('free')"><span class="zh">免费订阅</span><span class="en">Subscribe free</span></button>
+    </div>
+
+    <!-- BASIC -->
+    <div class="plan">
+      <div class="plan-name">Basic</div>
+      <div class="plan-desc"><span class="zh">本科生 / 硕士 / 爱好者</span><span class="en">Undergrad / Master's / Enthusiasts</span></div>
+      <div class="plan-orig" id="basic-orig"></div>
+      <div class="plan-price" id="basic-price">¥15<small>/<span class="zh">月</span><span class="en">mo</span></small></div>
+      <div class="plan-note" id="basic-note"><span class="zh">按月计费</span><span class="en">Billed monthly</span></div>
+      <ul>
+        <li><span class="zh">每日推送</span><span class="en">Daily digest</span></li>
+        <li><span class="zh">3 个自定义关键词</span><span class="en">3 custom keywords</span></li>
+        <li><span class="zh">30+ 顶刊 + arXiv</span><span class="en">30+ journals + arXiv</span></li>
+        <li><span class="zh">DOI + 摘要直达</span><span class="en">DOI + abstract</span></li>
+        <li class="no"><span class="zh">AI 总结</span><span class="en">AI summary</span></li>
+      </ul>
+      <button class="plan-cta" onclick="openModal('basic')"><span class="zh">订阅 Basic</span><span class="en">Subscribe</span></button>
+    </div>
+
+    <!-- PRO -->
+    <div class="plan featured">
+      <div class="plan-badge"><span class="zh">最受欢迎</span><span class="en">Popular</span></div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-desc"><span class="zh">博士生 / 博后 / PI</span><span class="en">PhDs, postdocs, PIs</span></div>
+      <div class="plan-orig" id="pro-orig"></div>
+      <div class="plan-price" id="pro-price">¥30<small>/<span class="zh">月</span><span class="en">mo</span></small></div>
+      <div class="plan-note" id="pro-note"><span class="zh">按月计费</span><span class="en">Billed monthly</span></div>
+      <ul>
+        <li><span class="zh">每日推送</span><span class="en">Daily digest</span></li>
+        <li><span class="zh">10 个自定义关键词</span><span class="en">10 custom keywords</span></li>
+        <li><span class="zh"><b>AI 中英双语总结</b></span><span class="en"><b>Bilingual AI summary</b></span></li>
+        <li><span class="zh"><b>关键数据自动提取</b></span><span class="en"><b>Key data extraction</b></span></li>
+        <li><span class="zh">同义词智能扩展</span><span class="en">Synonym expansion</span></li>
+      </ul>
+      <div class="plan-sub">
+        <button class="plan-cta" onclick="openModal('pro')"><span class="zh">订阅 Pro</span><span class="en">Subscribe Pro</span></button>
+      </div>
+    </div>
+
+    <!-- TEAM -->
+    <div class="plan">
+      <div class="plan-name">Team</div>
+      <div class="plan-desc"><span class="zh">课题组共用，更划算</span><span class="en">Shared for research groups</span></div>
+      <div class="plan-orig" id="team-orig"></div>
+      <div class="plan-price" id="team-price">¥88<small>/<span class="zh">月起</span><span class="en">mo+</span></small></div>
+      <div class="plan-note" id="team-note"><span class="zh">3人团 ¥88 / 4人团 ¥99</span><span class="en">3-seat ¥88 / 4-seat ¥99</span></div>
+      <ul>
+        <li><span class="zh">Pro 全部功能</span><span class="en">Everything in Pro</span></li>
+        <li><span class="zh">3 或 4 个独立账户</span><span class="en">3 or 4 individual accounts</span></li>
+        <li><span class="zh">无限关键词（每人独立）</span><span class="en">Unlimited keywords per seat</span></li>
+        <li><span class="zh">每月共享 trend 报告</span><span class="en">Monthly shared trend report</span></li>
+        <li><span class="zh">优先响应</span><span class="en">Priority response</span></li>
+      </ul>
+      <div class="team-opts">
+        <button class="team-opt" onclick="openModal('team3')"><span class="zh">3人团</span><span class="en">3 seats</span><br><span style="font-size:11px;font-weight:400;color:var(--ink3)" id="team3-sub">¥88/月</span></button>
+        <button class="team-opt" onclick="openModal('team4')"><span class="zh">4人团</span><span class="en">4 seats</span><br><span style="font-size:11px;font-weight:400;color:var(--ink3)" id="team4-sub">¥99/月</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+<div class="c">
+  <div class="s-label">FAQ</div>
+  <h2><span class="zh">常见问题</span><span class="en">Common questions</span></h2>
+  <details>
+    <summary><span class="zh">内容合法吗？期刊会有版权问题吗？</span><span class="en">Is this legal? Copyright concerns?</span></summary>
+    <p><span class="zh">AtomFeed 只发送公开元数据（标题、作者、DOI、摘要），全部通过期刊官方 RSS 和 arXiv 官方 API 合法获取，不绕过 paywall，不发 PDF，不转载全文。AI 总结基于摘要生成，符合学术引用惯例。</span><span class="en">AtomFeed sends only public metadata (title, authors, DOI, abstract) via official journal RSS and APIs. No paywall bypass, no PDF, no full-text reproduction. AI summaries are based on abstracts.</span></p>
+  </details>
+  <details>
+    <summary><span class="zh">关键词怎么算精准匹配？</span><span class="en">How does keyword matching work?</span></summary>
+    <p><span class="zh">同义词自动扩展："anode-free" 会匹配 AFLMB、anode-less 等。你可以在备注里告诉我们特殊规则，我们手动配置。</span><span class="en">"anode-free" auto-matches AFLMB, anode-less. "HC" excludes papers containing "hard carbon" since HC = Half-Cell in battery research. Special rules can be configured via email.</span></p>
+  </details>
+  <details>
+    <summary><span class="zh">想修改关键词怎么办？</span><span class="en">How do I change my keywords?</span></summary>
+    <p><span class="zh">直接回复任意一封 AtomFeed 邮件，说明想修改的关键词。我们会在 24 小时内确认并更新。关键词修改需人工审核，防止批量注册滥用，这也是 Pro 套餐质量保证的一部分。</span><span class="en">Reply to any AtomFeed email with your requested changes. We'll confirm and update within 24h. Manual review prevents abuse and ensures quality.</span></p>
+  </details>
+  <details>
+    <summary><span class="zh">付款后多久能收到授权码？</span><span class="en">How long until I receive my license key?</span></summary>
+    <p><span class="zh">支付宝付款后点击"我已付款"按钮，发送确认邮件给我们。我们核对后 12 小时内发送授权码到你的邮箱，第二天早上 8 点你就能收到第一封 digest。</span><span class="en">Click "I paid" after Alipay payment to notify us. License key sent within 12h, first digest arrives the next morning at 8am.</span></p>
+  </details>
+  <details>
+    <summary><span class="zh">退款政策？</span><span class="en">Refund policy?</span></summary>
+    <p><span class="zh">7 天内不满意全额退款，无需理由。直接回复邮件说明即可。</span><span class="en">Full refund within 7 days, no questions asked. Just reply to any email.</span></p>
+  </details>
+  <details>
+    <summary><span class="zh">Team 套餐如何分配给组员？</span><span class="en">How does Team plan work across members?</span></summary>
+    <p><span class="zh">订阅后把 3 或 4 个成员的邮箱和关键词发给我们，我们为每人单独开通账户，每人的关键词独立，收到的邮件内容不同。</span><span class="en">After subscribing, send us 3 or 4 member emails + keywords. Each gets an individual account with their own keyword set. PI receives a shared trend report.</span></p>
+  </details>
+</div>
+</section>
+
+<footer>
+<div class="c">
+  <div class="footer-i">
+    <div>
+      <div class="logo" style="margin-bottom:6px;text-decoration:none;display:flex;align-items:center;gap:9px"><span class="logo-mark" style="display:grid;place-items:center">⚡</span><span style="font-weight:700;font-size:16px;color:var(--ink)">AtomFeed</span></div>
+      <div class="footer-l"><span class="zh">© 2026 AtomFeed · 为电池研究者打造 · eRearch</span><span class="en">© 2026 AtomFeed · Built for battery researchers · eRearch</span></div>
+    </div>
+    <div class="footer-links">
+      <a href="https://eresearch.github.io/AtomFeed/" target="_blank">eresearch.github.io/AtomFeed</a>
+    </div>
+  </div>
+</div>
+</footer>
+
+<!-- ===== SUBSCRIPTION MODAL ===== -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+<div class="modal">
+  <div class="modal-head">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-title" id="m-title">订阅 Pro</div>
+    <div class="modal-plan-tag" id="m-plan-tag">Pro · ¥30/月</div>
+    <div class="prog" id="prog">
+      <div class="prog-step active" id="ps1"></div>
+      <div class="prog-step" id="ps2"></div>
+      <div class="prog-step" id="ps3"></div>
+      <div class="prog-step" id="ps4"></div>
+    </div>
+  </div>
+
+  <div class="modal-body" id="modal-body"><!-- dynamic --></div>
+
+  <div class="modal-foot" id="modal-foot">
+    <button class="modal-btn" id="btn-back" onclick="stepBack()"><span class="zh">返回</span><span class="en">Back</span></button>
+    <button class="modal-btn primary" id="btn-next" onclick="stepNext()"><span class="zh">下一步</span><span class="en">Next</span></button>
+  </div>
+</div>
+</div>
+
+<script>
+var lang=()=>document.body.getAttribute('data-lang');
+function toggleLang(){var l=lang()==='zh'?'en':'zh';document.body.setAttribute('data-lang',l);document.body.lang=l==='zh'?'zh-CN':'en';localStorage.setItem('af-lang',l)}
+var sl=localStorage.getItem('af-lang');if(sl)document.body.setAttribute('data-lang',sl);
+
+// BILLING TOGGLE
+var annual=false;
+var PRICES={free:{m:0,a:0},basic:{m:15,a:12},pro:{m:30,a:24},team3:{m:88,a:70},team4:{m:99,a:79}};
+function toggleBilling(){
+  annual=!annual;
+  var t=document.getElementById('annualToggle');
+  t.classList.toggle('on',annual);
+  updatePrices();
+}
+function updatePrices(){
+  var isZh=lang()==='zh';
+  var moSuffix=isZh?'/月':'/mo';
+  var p=annual?PRICES.pro.a:PRICES.pro.m;
+  document.getElementById('pro-price').innerHTML='¥'+p+'<small>'+moSuffix+'</small>';
+  if(annual){
+    document.getElementById('pro-orig').textContent='¥30'+moSuffix;
+    document.getElementById('pro-note').textContent=isZh?'年付 ¥'+(p*12)+' (省20%)':'Annual ¥'+(p*12)+' (save 20%)';
+  }else{
+    document.getElementById('pro-orig').textContent='';
+    document.getElementById('pro-note').textContent=isZh?'按月计费':'Billed monthly';
+  }
+  var bp=annual?PRICES.basic.a:PRICES.basic.m;
+  document.getElementById('basic-price').innerHTML='¥'+bp+'<small>'+moSuffix+'</small>';
+  if(annual){
+    document.getElementById('basic-orig').textContent='¥15'+moSuffix;
+    document.getElementById('basic-note').textContent=isZh?'年付 ¥'+(bp*12)+' (省20%)':'Annual ¥'+(bp*12)+' (save 20%)';
+  }else{
+    document.getElementById('basic-orig').textContent='';
+    document.getElementById('basic-note').textContent=isZh?'按月计费':'Billed monthly';
+  }
+  var t3=annual?PRICES.team3.a:PRICES.team3.m;
+  var t4=annual?PRICES.team4.a:PRICES.team4.m;
+  document.getElementById('team3-sub').textContent='¥'+t3+(isZh?'/月':'/mo');
+  document.getElementById('team4-sub').textContent='¥'+t4+(isZh?'/月':'/mo');
+  if(annual){
+    document.getElementById('team-orig').textContent='¥88/mo';
+    document.getElementById('team-note').textContent=isZh?'3人团¥'+t3+'/4人团¥'+t4+' 年付':'3-seat¥'+t3+' / 4-seat¥'+t4+' annual';
+  }else{
+    document.getElementById('team-orig').textContent='';
+    document.getElementById('team-note').textContent=isZh?'3人团 ¥88 / 4人团 ¥99':'3-seat ¥88 / 4-seat ¥99';
+  }
+}
+
+// KEYWORD SUGGESTIONS
+var KW_ALL=['anode-free','Li-S','solid electrolyte','Li-metal','SEI','sodium-ion','high-entropy','deposition','stripping','dendrite','cathode','NCM','LFP','sulfide','LLZO','argyrodite','capacity fade','DFT','ML screening','kinetics','interface','CuCC','HELH'];
+var PLAN_LIMITS={free:3,basic:3,pro:10,team3:99,team4:99};
+var PLAN_NAMES={free:'Free',basic:'Basic',pro:'Pro',team3:'Team (3人)',team4:'Team (4人)'};
+
+// STATE
+var state={plan:'pro',billing:'monthly',step:1,email:'',name:'',kw:[],note:'',order:''};
+
+var ALPHABET='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+function genOrder(){var r=n=>Array.from({length:n},()=>ALPHABET[Math.floor(Math.random()*ALPHABET.length)]).join('');return r(4)+'-'+r(4)}
+
+function openModal(plan){
+  state.plan=plan;state.step=1;state.kw=[];state.note='';state.email='';state.name='';state.order=genOrder();
+  state.billing=annual?'annual':'monthly';
+  var isZh=lang()==='zh';
+  var price=getPrice();
+  document.getElementById('m-title').textContent=(isZh?'订阅 ':'Subscribe to ')+PLAN_NAMES[plan]+(plan==='free'?(isZh?' · 免费版':' · Free'):'');
+  document.getElementById('m-plan-tag').textContent=PLAN_NAMES[plan]+(price>0?' · ¥'+price+(state.billing==='annual'?(isZh?'/月(年付)':'/mo(annual)'):(isZh?'/月':'/mo')):(isZh?' · 永久免费':' · Forever free'));
+  document.getElementById('overlay').classList.add('show');
+  renderStep();
+}
+function closeModal(){document.getElementById('overlay').classList.remove('show')}
+function getPrice(){var key=state.plan;return state.billing==='annual'?PRICES[key]?PRICES[key].a:0:PRICES[key]?PRICES[key].m:0}
+function getLimit(){return PLAN_LIMITS[state.plan]||3}
+function isFree(){return state.plan==='free'}
+
+function updateProg(){
+  var total=isFree()?3:4;
+  for(var i=1;i<=4;i++){
+    var el=document.getElementById('ps'+i);
+    if(i>total){el.style.display='none';continue}
+    el.style.display='';
+    el.className='prog-step'+(i<state.step?' done':i===state.step?' active':'');
+  }
+}
+
+function renderStep(){
+  updateProg();
+  var isZh=lang()==='zh';
+  var body=document.getElementById('modal-body');
+  var back=document.getElementById('btn-back');
+  var next=document.getElementById('btn-next');
+  back.style.display=state.step===1?'none':'';
+  if(state.step===1) renderStep1(body,isZh);
+  else if(state.step===2) renderStep2(body,isZh);
+  else if(state.step===3) renderStep3(body,isZh);
+  else if(state.step===4) renderStep4(body,isZh);
+  else if(state.step===5) renderStep5(body,isZh);
+
+  // footer buttons
+  if(state.step===5){
+    document.getElementById('modal-foot').style.display='none';
+  } else {
+    document.getElementById('modal-foot').style.display='flex';
+    if(state.step===4&&!isFree()){
+      next.innerHTML=isZh?'我已付款 ✓':'I paid ✓';
+    } else if(state.step===3&&isFree()){
+      next.innerHTML=isZh?'发邮件确认 →':'Send email →';
+    } else {
+      next.innerHTML=isZh?'下一步 →':'Next →';
+    }
+  }
+}
+
+function renderStep1(body,isZh){
+  body.innerHTML=`
+<div class="field"><label>${isZh?'邮箱 *':'Email *'}</label><input type="email" id="f-email" placeholder="${isZh?'your@email.com':'your@email.com'}" value="${state.email}"></div>
+<div class="field"><label>${isZh?'姓名（可选）':'Name (optional)'}</label><input type="text" id="f-name" placeholder="${isZh?'如：Ezra / 李明':'e.g. Ezra'}" value="${state.name}"></div>
+${!isFree()?`<div class="field"><label>${isZh?'付费方式':'Billing'}</label><div class="billing-choice">
+<button class="b-opt ${state.billing==='monthly'?'sel':''}" onclick="setBilling('monthly')">${isZh?'月付':'Monthly'}</button>
+<button class="b-opt ${state.billing==='annual'?'sel':''}" onclick="setBilling('annual')">${isZh?'年付 (省20%)':'Annual (save 20%)'}</button>
+</div></div>`:''}
+${state.plan==='team3'||state.plan==='team4'?`<div style="background:var(--blue-bg);border-radius:var(--r);padding:12px;font-size:13px;color:var(--blue)">${isZh?'Team 套餐：填写负责人邮箱即可，订阅后单独发给我们各成员邮箱和关键词。':'Team plan: enter the primary contact email. Send us member emails and keywords separately after subscribing.'}</div>`:''}
+`;
+}
+function setBilling(v){state.billing=v;var price=getPrice();document.getElementById('m-plan-tag').textContent=PLAN_NAMES[state.plan]+' · ¥'+price+(v==='annual'?(lang()==='zh'?'/月(年付)':'/mo(annual)'):(lang()==='zh'?'/月':'/mo'));document.querySelectorAll('.b-opt').forEach(b=>b.classList.remove('sel'));event.target.classList.add('sel')}
+
+function renderStep2(body,isZh){
+  var limit=getLimit();
+  var selected=state.kw;
+  body.innerHTML=`
+<div class="kw-limit">${isZh?`最多选 <b>${limit}</b> 个关键词`:`Select up to <b>${limit}</b> keywords`} ${isFree()?(isZh?'(免费版使用默认推荐词，可参考)':'(free plan uses default keywords, these are for reference)'):''}${limit>=99?(isZh?'(Team 无限制)':'(Team: unlimited)'):''}</div>
+<div class="kw-chips">${KW_ALL.map(k=>`<button class="kw-chip ${selected.includes(k)?'sel':''}" onclick="toggleKw('${k}')">${k}</button>`).join('')}</div>
+<div class="kw-custom">
+  <input type="text" id="kw-inp" placeholder="${isZh?'输入自定义关键词':'Enter custom keyword'}">
+  <button onclick="addCustomKw()">${isZh?'添加':'Add'}</button>
+</div>
+<div class="kw-selected">
+  <div class="kw-selected-label">${isZh?'已选：':'Selected:'}</div>
+  <div class="kw-tags" id="kw-tags">${renderKwTags(selected,isZh)}</div>
+</div>`;
+}
+function renderKwTags(arr,isZh){return arr.map(k=>`<span class="kw-tag">${k}<button onclick="removeKw('${k}')" title="${isZh?'移除':'remove'}">×</button></span>`).join('')||`<span style="font-size:12px;color:var(--ink4)">${isZh?'尚未选择':'None selected'}</span>`}
+function toggleKw(k){
+  var i=state.kw.indexOf(k);
+  if(i>-1){state.kw.splice(i,1)}
+  else{if(state.kw.length>=getLimit()&&getLimit()<99){var isZh=lang()==='zh';alert(isZh?`最多选 ${getLimit()} 个关键词`:`Max ${getLimit()} keywords`);return}state.kw.push(k)}
+  document.querySelectorAll('.kw-chip').forEach(c=>{c.classList.toggle('sel',state.kw.includes(c.textContent.trim()))});
+  document.getElementById('kw-tags').innerHTML=renderKwTags(state.kw,lang()==='zh');
+}
+function addCustomKw(){var inp=document.getElementById('kw-inp');var v=inp.value.trim();if(!v)return;toggleKw(v);inp.value=''}
+function removeKw(k){var i=state.kw.indexOf(k);if(i>-1)state.kw.splice(i,1);document.querySelectorAll('.kw-chip').forEach(c=>{if(c.textContent.trim()===k)c.classList.remove('sel')});document.getElementById('kw-tags').innerHTML=renderKwTags(state.kw,lang()==='zh')}
+
+function renderStep3(body,isZh){
+  body.innerHTML=`
+<div class="field"><label>${isZh?'备注 / 期刊建议 / 其他想说的（可选）':'Notes / journal requests / anything else (optional)'}</label>
+<textarea id="f-note" rows="5" placeholder="${isZh?'例如：\n- 我还关注 Energy Storage Materials 这个期刊\n- 我的 HC 关键词指 half-cell，Li||Cu 体系\n- 有问题可加我微信 xxx':'e.g.:\n- Please add Energy Storage Materials journal\n- My HC keyword means half-cell (Li||Cu)\n- Any questions: your contact'}">${state.note}</textarea>
+</div>
+<p style="font-size:12px;color:var(--ink3)">${isZh?'期刊需求：直接写期刊名和网址，我们会评估添加。关键词特殊规则（如 HC = Half-Cell）也写在这里，我们手动配置。':'Journal requests: write name + URL. Special keyword rules (e.g. HC = Half-Cell) go here too.'}</p>`;
+}
+
+function renderStep4(body,isZh){
+  if(isFree()){
+    // free: just show confirmation + mailto
+    body.innerHTML=`<div class="success-wrap" style="padding:10px 0">
+<div class="success-icon">📬</div>
+<h3 style="color:var(--ink)">${isZh?'确认免费订阅':'Confirm Free Subscription'}</h3>
+<p>${isZh?'点击下方按钮，将跳转到邮件客户端，发送订阅请求给我们。':'Click below to open your email client and send us the subscription request.'}</p>
+<div class="success-email">${isZh?'发给：':'To: '}1874942711@qq.com</div>
+</div>`;
+  } else {
+    var price=getPrice();
+    var billing=state.billing==='annual'?state.billing:'monthly';
+    var totalText=state.billing==='annual'?(isZh?'年付 ¥'+price*12:'Annual ¥'+price*12):(isZh?'月付 ¥'+price:'Monthly ¥'+price);
+    body.innerHTML=`
+<div class="amount-line">¥${price}<span style="font-size:14px;font-weight:400;color:var(--ink3)"> /${state.billing==='annual'?(isZh?'月（年付）':'mo annual'):(isZh?'月':'month')}</span></div>
+<div class="order-code-box">
+  <div class="order-label">${isZh?'付款备注（转账时必填）':'Payment note (required when transferring)'}</div>
+  <div class="order-val">${state.order}</div>
+</div>
+<div class="qr-wrap">
+  <img src="assets/alipay-qr.png" alt="Alipay QR" onerror="this.style.display='none';document.getElementById('qr-ph').style.display='flex'">
+  <div class="qr-placeholder" id="qr-ph" style="display:none"><span style="font-size:28px">💰</span><span>${isZh?'支付宝收款码':'Alipay QR'}</span><span style="font-size:10px">(${isZh?'图片加载中':'loading'})</span></div>
+  <div style="font-size:12px;color:var(--ink3);margin-top:6px">${isZh?'支付宝扫码':'Scan with Alipay'}</div>
+</div>
+<div class="pay-instr">
+  <b>${isZh?'付款步骤：':'Steps:'}</b><br>
+  1. ${isZh?'扫码，金额 ¥'+price+'，备注填上方订单号':'Scan, amount ¥'+price+', note = order code above'}<br>
+  2. ${isZh?'付款完成后点击「我已付款」':'After paying, click "I paid"'}<br>
+  3. ${isZh?'12 小时内授权码发送到你的邮箱':'License key sent to your email within 12h'}
+</div>`;
+  }
+}
+
+function renderStep5(body,isZh){
+  body.innerHTML=`<div class="success-wrap">
+<div class="success-icon">✅</div>
+<h3>${isZh?'已收到，感谢！':'Received, thank you!'}</h3>
+<p>${isZh?'我们已收到你的付款通知。':'We have received your payment notification.'}</p>
+<p>${isZh?'授权码将在 12 小时内发送到：':'License key will be sent within 12h to:'}</p>
+<div class="success-email">${state.email||'your email'}</div>
+<p style="margin-top:8px">${isZh?'收到授权码后，第二天早上 8 点你将收到第一封 AtomFeed digest。':'After receiving the key, your first digest arrives the next morning at 8am.'}</p>
+<div class="success-code">${isZh?'订单号：':'Order: '}${state.order}</div>
+</div>`;
+  document.getElementById('modal-foot').style.display='none';
+}
+
+function stepNext(){
+  var isZh=lang()==='zh';
+  if(state.step===1){
+    var email=document.getElementById('f-email').value.trim();
+    if(!email||!email.includes('@')){alert(isZh?'请输入有效邮箱':'Please enter a valid email');return}
+    state.email=email;
+    state.name=(document.getElementById('f-name')||{}).value||'';
+  }
+  if(state.step===2){
+    state.kw=[...state.kw];
+    if(state.kw.length===0&&!isFree()){if(!confirm(isZh?'未选择关键词，确认继续？':'No keywords selected. Continue?'))return}
+  }
+  if(state.step===3){
+    state.note=(document.getElementById('f-note')||{}).value||'';
+    if(isFree()){triggerFreeMail(isZh);return}
+  }
+  if(state.step===4&&!isFree()){
+    triggerPaidMail(isZh);
+    state.step=5;renderStep();return;
+  }
+  state.step++;renderStep();
+}
+
+function stepBack(){if(state.step>1){state.step--;renderStep()}}
+
+function triggerFreeMail(isZh){
+  var subj=isZh?'AtomFeed 免费订阅 - '+state.order:'AtomFeed Free Subscription - '+state.order;
+  var body=isZh?
+`AtomFeed 免费版订阅请求
+
+姓名: ${state.name||'(未填)'}
+邮箱: ${state.email}
+关键词: ${state.kw.join(', ')||'(默认)'}
+备注: ${state.note||'(无)'}
+订单号: ${state.order}`:
+`AtomFeed Free Subscription
+
+Name: ${state.name||'(not provided)'}
+Email: ${state.email}
+Keywords: ${state.kw.join(', ')||'(default)'}
+Notes: ${state.note||'(none)'}
+Order: ${state.order}`;
+  window.location.href='mailto:1874942711@qq.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+  state.step=5;renderStep();
+}
+
+function triggerPaidMail(isZh){
+  var price=getPrice();
+  var planName=PLAN_NAMES[state.plan];
+  var subj=isZh?`AtomFeed ${planName} 已付款 - ${state.order}`:`AtomFeed ${planName} Payment - ${state.order}`;
+  var body=isZh?
+`AtomFeed 订阅付款通知
+
+套餐: ${planName}
+付款金额: ¥${price}/${state.billing==='annual'?'月(年付)':'月'}
+订单号: ${state.order}
+
+用户信息:
+姓名: ${state.name||'(未填)'}
+邮箱: ${state.email}
+关键词: ${state.kw.join(', ')||'(未选)'}
+备注: ${state.note||'(无)'}
+
+请核对支付宝到账后发送授权码。`:
+`AtomFeed Subscription Payment
+
+Plan: ${planName}
+Amount: ¥${price}/${state.billing==='annual'?'mo(annual)':'month'}
+Order: ${state.order}
+
+User info:
+Name: ${state.name||'(not provided)'}
+Email: ${state.email}
+Keywords: ${state.kw.join(', ')||'(none selected)'}
+Notes: ${state.note||'(none)'}
+
+Please verify Alipay payment and send license key.`;
+  window.location.href='mailto:1874942711@qq.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+}
+</script>
+</body>
+</html>
