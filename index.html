@@ -251,7 +251,6 @@ footer{border-top:1px solid var(--line);padding:36px 0}
   </p>
   <div class="btns">
     <button class="btn btn-dark" onclick="openModal('pro')"><span class="zh">立即订阅</span><span class="en">Subscribe now</span> →</button>
-    <button class="btn btn-ghost" onclick="openModal('free')"><span class="zh">免费体验</span><span class="en">Start free</span></button>
   </div>
   <div class="hero-checks">
     <span><span class="zh">免费版可用</span><span class="en">Free plan available</span></span>
@@ -645,7 +644,12 @@ function openModal(plan){
   renderStep();
 }
 function closeModal(){document.getElementById('overlay').classList.remove('show')}
-function getPrice(){var key=state.plan;return state.billing==='annual'?PRICES[key]?PRICES[key].a:0:PRICES[key]?PRICES[key].m:0}
+function getPrice(){
+  var key=state.plan;
+  var monthly=PRICES[key]?PRICES[key].m:0;
+  var p=state.billing==='annual'?PRICES[key].a:monthly;
+  return state.billing==='annual'? p*12 : p;
+}
 function getLimit(){return PLAN_LIMITS[state.plan]||3}
 function isFree(){return state.plan==='free'}
 
@@ -771,8 +775,8 @@ function renderStep5(body,isZh){
   body.innerHTML=`<div class="success-wrap">
 <div class="success-icon">✅</div>
 <h3>${isZh?'已收到，感谢！':'Received, thank you!'}</h3>
-<p>${isZh?'我们已收到你的付款通知。':'We have received your payment notification.'}</p>
-<p>${isZh?'授权码将在 12 小时内发送到：':'License key will be sent within 12h to:'}</p>
+<p>${isZh?'我们将审核付款通知。':'We have received your payment notification.'}</p>
+<p>${isZh?'授权码将在 24 小时内发送到：':'License key will be sent within 12h to:'}</p>
 <div class="success-email">${state.email||'your email'}</div>
 <p style="margin-top:8px">${isZh?'收到授权码后，第二天早上 8 点你将收到第一封 AtomFeed digest。':'After receiving the key, your first digest arrives the next morning at 8am.'}</p>
 <div class="success-code">${isZh?'订单号：':'Order: '}${state.order}</div>
