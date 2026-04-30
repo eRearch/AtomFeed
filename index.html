@@ -609,10 +609,11 @@ function updatePrices(){
     document.getElementById('basic-orig').textContent='';
     document.getElementById('basic-note').textContent=isZh?'按月计费':'Billed monthly';
   }
-  var t3=annual?PRICES.team3.a:PRICES.team3.m;
-  var t4=annual?PRICES.team4.a:PRICES.team4.m;
-  document.getElementById('team3-sub').textContent='¥'+t3+(isZh?'/月':'/mo');
-  document.getElementById('team4-sub').textContent='¥'+t4+(isZh?'/月':'/mo');
+  var t3=annual?PRICES.team3.a*12:PRICES.team3.m;
+  var t4=annual?PRICES.team4.a*12:PRICES.team4.m;
+  document.getElementById('team-price').innerHTML='¥'+t3+'<small>/<span class="zh">'+(annual?'年':'月')+'</span><span class="en">'+(annual?'yr':'mo')+'</span></small>';
+  document.getElementById('team3-sub').textContent='¥'+t3+(annual?'/年':'/月');
+  document.getElementById('team4-sub').textContent='¥'+t4+(annual?'/年':'/月');
   if(annual){
     document.getElementById('team-orig').textContent='¥88/mo';
     document.getElementById('team-note').textContent=isZh?'3人团¥'+t3+'/4人团¥'+t4+' 年付':'3-seat¥'+t3+' / 4-seat¥'+t4+' annual';
