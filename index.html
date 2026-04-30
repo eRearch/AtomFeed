@@ -489,9 +489,8 @@ footer{border-top:1px solid var(--line);padding:36px 0}
         <li><span class="zh">优先响应</span><span class="en">Priority response</span></li>
       </ul>
       <div class="team-opts">
-        <button class="team-opt" onclick="openModal('team3')"><span class="zh">3人团</span><span class="en">3 seats</span><br><span style="font-size:11px;font-weight:400;color:var(--ink3)" id="team3-sub">¥88/月</span></button>
-        <button class="team-opt" onclick="openModal('team4')"><span class="zh">4人团</span><span class="en">4 seats</span><br><span style="font-size:11px;font-weight:400;color:var(--ink3)" id="team4-sub">¥99/月</span></button>
-      </div>
+        <button class="team-opt" onclick="openModal('team3')"><span id="team3-sub"></span></button>
+        <button class="team-opt" onclick="openModal('team4')"><span id="team4-sub"></span></button>
     </div>
   </div>
 </div>
@@ -618,7 +617,7 @@ function updatePrices(){
   // Team — 人均月费
   var pm3=annual?Math.round(PRICES.team3.a/3):Math.round(PRICES.team3.m/3);
   var pm4=annual?Math.round(PRICES.team4.a/4):Math.round(PRICES.team4.m/4);
-  document.getElementById('team-price').innerHTML='¥'+pm3+'<small>/<span class="zh">人/月起</span><span class="en">seat/mo</span></small>';
+  document.getElementById('team-price').innerHTML='¥'+pm4+'<small>/<span class="zh">人/月起</span><span class="en">seat/mo</span></small>';
   document.getElementById('team-orig').textContent='';
   document.getElementById('team-note').textContent='';
   document.getElementById('team3-sub').textContent=annual?'3人团 ¥'+pm3+'/人/月 年付':'3人团 ¥'+pm3+'/人/月';
