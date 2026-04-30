@@ -612,17 +612,13 @@ function updatePrices(){
   }
   var t3=annual?PRICES.team3.a*12:PRICES.team3.m;
   var t4=annual?PRICES.team4.a*12:PRICES.team4.m;
-  var perPerson=annual?Math.round(PRICES.team3.a/3):Math.round(PRICES.team3.m/3);
-  document.getElementById('team-price').innerHTML='¥'+perPerson+'<small>/<span class="zh">人/月起</span><span class="en">seat/mo</span></small>';
-  document.getElementById('team3-sub').textContent='¥'+t3+(annual?'/年':'/月');
-  document.getElementById('team4-sub').textContent='¥'+t4+(annual?'/年':'/月');
-  if(annual){
-    document.getElementById('team-orig').textContent='¥88/mo';
-    document.getElementById('team-note').textContent=isZh?'3人团¥'+t3+'/4人团¥'+t4+' 年付':'3-seat¥'+t3+' / 4-seat¥'+t4+' annual';
-  }else{
-    document.getElementById('team-orig').textContent='';
-    document.getElementById('team-note').textContent=isZh?'3人团 ¥88 / 4人团 ¥99':'3-seat ¥88 / 4-seat ¥99';
-  }
+  var pp3=annual?Math.round(PRICES.team3.a*12/3):Math.round(PRICES.team3.m/3);
+  var pp4=annual?Math.round(PRICES.team4.a*12/4):Math.round(PRICES.team4.m/4);
+  document.getElementById('team-price').innerHTML='¥'+pp3+'<small>/<span class="zh">人/月起</span><span class="en">seat/mo</span></small>';
+  document.getElementById('team-orig').textContent='';
+  document.getElementById('team-note').textContent='';
+  document.getElementById('team3-sub').textContent=annual?'3人团 年付¥'+Math.round(PRICES.team3.a*12/3)+'/人':'3人团 ¥'+pp3+'/人/月';
+  document.getElementById('team4-sub').textContent=annual?'4人团 年付¥'+Math.round(PRICES.team4.a*12/4)+'/人':'4人团 ¥'+pp4+'/人/月';
 }
 
 // KEYWORD SUGGESTIONS
