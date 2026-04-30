@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>AtomFeed · 科研文献每日情报</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230d0d0d'/><polygon points='19,5 13,17 16.5,17 11,27 22,14 17.5,14 21,5' fill='%23d97757'/></svg>">
 <meta name="description" content="直接从期刊源头获取情报。每天早上8点,你的关键词匹配结果已经准备好了。"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -515,7 +516,7 @@ footer{border-top:1px solid var(--line);padding:36px 0}
   </details>
   <details>
     <summary><span class="zh">付款后多久能收到授权码？</span><span class="en">How long until I receive my license key?</span></summary>
-    <p><span class="zh">支付宝付款后点击"我已付款"按钮，发送确认邮件给我们。我们核对后 12 小时内发送授权码到你的邮箱，第二天早上 8 点你就能收到第一封 digest。</span><span class="en">Click "I paid" after Alipay payment to notify us. License key sent within 12h, first digest arrives the next morning at 8am.</span></p>
+    <p><span class="zh">支付宝付款后点击"我已付款"按钮，发送确认邮件给我们。我们核对后 24 小时内发送授权码到你的邮箱，第二天早上 8 点你就能收到第一封 digest。</span><span class="en">Click "I paid" after Alipay payment to notify us. License key sent within 12h, first digest arrives the next morning at 8am.</span></p>
   </details>
   <details>
     <summary><span class="zh">退款政策？</span><span class="en">Refund policy?</span></summary>
@@ -526,8 +527,12 @@ footer{border-top:1px solid var(--line);padding:36px 0}
     <p><span class="zh">订阅后把 3 或 4 个成员的邮箱和关键词发给我们，我们为每人单独开通账户，每人的关键词独立，收到的邮件内容不同。</span><span class="en">After subscribing, send us 3 or 4 member emails + keywords. Each gets an individual account with their own keyword set. PI receives a shared trend report.</span></p>
   </details>
   <details>
-    <summary><span class="zh">我做其他科研领域？</span><span class="en">How does Team plan work across members?</span></summary>
+    <summary><span class="zh">做其他科研领域？</span><span class="en">How does Team plan work across members?</span></summary>
     <p><span class="zh">订阅后把您的日常关注期刊的链接发给我们定制。</span><span class="en">After subscribing, send us 3 or 4 member emails + keywords. Each gets an individual account with their own keyword set. PI receives a shared trend report.</span></p>
+  </details>
+  <details>
+    <summary><span class="zh">反馈问题，联系我们？</span><span class="en">How does Team plan work across members?</span></summary>
+    <p><span class="zh">欢迎垂询！邮箱Email: atomfeed@163.com </span><span class="en">After subscribing, send us 3 or 4 member emails + keywords. Each gets an individual account with their own keyword set. PI receives a shared trend report.</span></p>
   </details>
 </div>
 </section>
@@ -736,7 +741,7 @@ function renderStep4(body,isZh){
 <div class="success-icon">📬</div>
 <h3 style="color:var(--ink)">${isZh?'确认免费订阅':'Confirm Free Subscription'}</h3>
 <p>${isZh?'点击下方按钮，将跳转到邮件客户端，发送订阅请求给我们。':'Click below to open your email client and send us the subscription request.'}</p>
-<div class="success-email">${isZh?'发给：':'To: '}755986137@qq.com</div>
+<div class="success-email">${isZh?'发给：':'To: '}atomfeed@163.com</div>
 </div>`;
   } else {
     var price=getPrice();
@@ -817,7 +822,11 @@ Email: ${state.email}
 Keywords: ${state.kw.join(', ')||'(default)'}
 Notes: ${state.note||'(none)'}
 Order: ${state.order}`;
-  window.location.href='mailto:755986137@qq.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+  fetch('https://formspree.io/f/mpqbaobg',{
+  method:'POST',
+  headers:{'Content-Type':'application/json','Accept':'application/json'},
+  body:JSON.stringify({email:state.email,plan:state.plan,order:state.order,name:state.name,keywords:state.kw.join(', '),note:state.note})
+});
   state.step=5;renderStep();
 }
 
@@ -852,7 +861,11 @@ Keywords: ${state.kw.join(', ')||'(none selected)'}
 Notes: ${state.note||'(none)'}
 
 Please verify Alipay payment and send license key.`;
-  window.location.href='mailto:755986137@qq.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+  fetch('https://formspree.io/f/mpqbaobg',{
+  method:'POST',
+  headers:{'Content-Type':'application/json','Accept':'application/json'},
+  body:JSON.stringify({email:state.email,plan:state.plan,order:state.order,name:state.name,keywords:state.kw.join(', '),note:state.note})
+});
 }
 </script>
 </body>
