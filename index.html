@@ -822,7 +822,7 @@ Email: ${state.email}
 Keywords: ${state.kw.join(', ')||'(default)'}
 Notes: ${state.note||'(none)'}
 Order: ${state.order}`;
-  fetch('https://formspree.io/f/mpqbaobg',{
+  fetch('https://api.web3forms.com/submit',{
   method:'POST',
   headers:{'Content-Type':'application/json','Accept':'application/json'},
   body:JSON.stringify({email:state.email,plan:state.plan,order:state.order,name:state.name,keywords:state.kw.join(', '),note:state.note,amount:'¥'+getPrice(),
@@ -863,10 +863,10 @@ Keywords: ${state.kw.join(', ')||'(none selected)'}
 Notes: ${state.note||'(none)'}
 
 Please verify Alipay payment and send license key.`;
-  fetch('https://formspree.io/f/mpqbaobg',{
+  fetch('https://api.web3forms.com/submit',{
   method:'POST',
   headers:{'Content-Type':'application/json','Accept':'application/json'},
-  body:JSON.stringify({email:state.email,plan:state.plan,order:state.order,name:state.name,keywords:state.kw.join(', '),note:state.note})
+  body:JSON.stringify({email:state.email,access_key:'be6e7f6f-b024-42c1-bea1-38d0bab490d0',plan:state.plan,order:state.order,name:state.name,keywords:state.kw.join(', '),note:state.note})
 });
 }
 </script>
