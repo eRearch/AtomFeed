@@ -474,7 +474,8 @@ footer{border-top:1px solid var(--line);padding:36px 0}
     </div>
 
     <!-- TEAM -->
-    <div class="plan">
+    <div class="plan featured">
+      <div class="plan-badge"><span class="zh">旗舰版</span><span class="en">Enterprise</span></div>
       <div class="plan-name">Team</div>
       <div class="plan-desc"><span class="zh">课题组共用，更划算</span><span class="en">Shared for research groups</span></div>
       <div class="plan-orig" id="team-orig"></div>
@@ -515,11 +516,11 @@ footer{border-top:1px solid var(--line);padding:36px 0}
   </details>
   <details>
     <summary><span class="zh">付款后多久能收到授权码？</span><span class="en">How long until I receive my license key?</span></summary>
-    <p><span class="zh">支付宝付款后点击"我已付款"按钮，发送确认邮件给我们。我们核对后 24 小时内发送授权码到你的邮箱，第二天早上 8 点你就能收到第一封 digest。</span><span class="en">Click "I paid" after Alipay payment to notify us. License key sent within 12h, first digest arrives the next morning at 8am.</span></p>
+    <p><span class="zh">支付宝付款后点击"我已付款"按钮。我们核对后 24 小时内发送授权码到你的邮箱，第二天早上 8 点你就能收到第一封 digest。</span><span class="en">Click "I paid" after Alipay payment to notify us. License key sent within 12h, first digest arrives the next morning at 8am.</span></p>
   </details>
   <details>
     <summary><span class="zh">退款政策？</span><span class="en">Refund policy?</span></summary>
-    <p><span class="zh">7 天内不满意全额退款，无需理由。直接回复邮件说明即可。</span><span class="en">Full refund within 7 days, no questions asked. Just reply to any email.</span></p>
+    <p><span class="zh">7 天内不满意半额退款。直接回复邮件说明即可。</span><span class="en">Full refund within 7 days, no questions asked. Just reply to any email.</span></p>
   </details>
   <details>
     <summary><span class="zh">Team 套餐如何分配给组员？</span><span class="en">How does Team plan work across members?</span></summary>
@@ -611,7 +612,8 @@ function updatePrices(){
   }
   var t3=annual?PRICES.team3.a*12:PRICES.team3.m;
   var t4=annual?PRICES.team4.a*12:PRICES.team4.m;
-  document.getElementById('team-price').innerHTML='¥'+t3+'<small>/<span class="zh">'+(annual?'年':'月')+'</span><span class="en">'+(annual?'yr':'mo')+'</span></small>';
+  var perPerson=annual?Math.round(PRICES.team3.a/3):Math.round(PRICES.team3.m/3);
+  document.getElementById('team-price').innerHTML='¥'+perPerson+'<small>/<span class="zh">人/月起</span><span class="en">seat/mo</span></small>';
   document.getElementById('team3-sub').textContent='¥'+t3+(annual?'/年':'/月');
   document.getElementById('team4-sub').textContent='¥'+t4+(annual?'/年':'/月');
   if(annual){
