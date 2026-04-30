@@ -615,13 +615,15 @@ function updatePrices(){
   }
   
   // Team — 人均月费
-  var pm3=annual?Math.round(PRICES.team3.a/3):Math.round(PRICES.team3.m/3);
-  var pm4=annual?Math.round(PRICES.team4.a/4):Math.round(PRICES.team4.m/4);
-  document.getElementById('team-price').innerHTML='¥'+pm4+'<small>/<span class="zh">人/月起</span><span class="en">seat/mo</span></small>';
-  document.getElementById('team-orig').textContent='';
-  document.getElementById('team-note').textContent='';
-  document.getElementById('team3-sub').textContent=annual?'3人团 ¥'+pm3+'/人/月 年付':'3人团 ¥'+pm3+'/人/月';
-  document.getElementById('team4-sub').textContent=annual?'4人团 ¥'+pm4+'/人/月 年付':'4人团 ¥'+pm4+'/人/月';
+  var pm3=(PRICES.team3.m/3).toFixed(2);
+  var pm4=(PRICES.team4.m/4).toFixed(2);
+  var pm3a=(PRICES.team3.a/3).toFixed(2);
+  var pm4a=(PRICES.team4.a/4).toFixed(2);
+  document.getElementById('team-price').innerHTML='¥'+(annual?pm4a:pm4)+'<small>/<span class="zh">人/月起</span><span class="en">seat/mo</span></small>';
+  document.getElementById('team-orig').textContent=annual?'¥'+pm4+'/人/月':'';
+  document.getElementById('team-note').textContent=annual?'年付 省20%':'';
+  document.getElementById('team3-sub').textContent=annual?'3人团 ¥'+pm3a+'/人/月 年付':'3人团 ¥'+pm3+'/人/月';
+  document.getElementById('team4-sub').textContent=annual?'4人团 ¥'+pm4a+'/人/月 年付':'4人团 ¥'+pm4+'/人/月';
 }
 
 // KEYWORD SUGGESTIONS
