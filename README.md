@@ -9,7 +9,7 @@
 
 **科研文献每日情报 · 你决定看什么**
 
-[![Website](https://img.shields.io/badge/订阅-eresearch.github.io/AtomFeed-black?style=flat-square)](https://eresearch.github.io/AtomFeed/)
+[![Website](https://img.shields.io/badge/订阅-erearch.github.io/AtomFeed-black?style=flat-square)](https://erearch.github.io/AtomFeed/)
 ![Status](https://img.shields.io/badge/状态-运行中-brightgreen?style=flat-square)
 ![Plans](https://img.shields.io/badge/套餐-Free_·_Basic_·_Pro_·_Team-orange?style=flat-square)
 
@@ -59,7 +59,7 @@ Nature · Nature Energy · Nature Materials · Joule · Matter · Science · Sci
 
 ## 订阅
 
-**→ [eresearch.github.io/AtomFeed](https://eresearch.github.io/AtomFeed/)**
+**→ [erearch.github.io/AtomFeed](https://erearch.github.io/AtomFeed/)**
 
 7 天不满意半额退款 · 付款 · 12 小时内开通
 
